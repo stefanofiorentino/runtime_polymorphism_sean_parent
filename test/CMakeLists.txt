@@ -38,16 +38,12 @@ function(ADD_UNIT_TEST TEST_NAME TEST_SOURCE)
     add_executable(${TEST_NAME} "${TEST_SOURCE}")
 
     set_target_properties(${TEST_NAME} PROPERTIES POSITION_INDEPENDENT_CODE 1)
-    target_compile_options(${TEST_NAME} PRIVATE -fPIC -g -O0)
     target_link_libraries(
             ${TEST_NAME}
         PRIVATE
             GMock::Main
             Threads::Threads
-            "${LIBRT}"
-            "${WINSOCK2}"
     )
-    target_compile_options(${TEST_NAME} PRIVATE -Wall)
     target_include_directories(
         ${TEST_NAME}
             PRIVATE
@@ -68,5 +64,5 @@ endfunction()
 
 option(BUILD_GOOGLE_BASED_TESTS "Enable building googletest-based unit tests." OFF)
 if (${BUILD_GOOGLE_BASED_TESTS})
-    ADD_UNIT_TEST(template template.cpp)
+    ADD_UNIT_TEST(runtime_polymorphism runtime_polymorphism.cpp)
 endif (${BUILD_GOOGLE_BASED_TESTS})

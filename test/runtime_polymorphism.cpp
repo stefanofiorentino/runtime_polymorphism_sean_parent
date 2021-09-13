@@ -2,8 +2,8 @@
 
 #include <document.hpp>
 
-TEST(runtime_polymorphism, basic_unit_test)
-{
+void test_helper(std::ostream& out)
+{    
     document_t document;
 
     document.emplace_back(0);
@@ -12,9 +12,17 @@ TEST(runtime_polymorphism, basic_unit_test)
     document.emplace_back(3);
     document.emplace_back(4);
 
-    std::ostringstream oss;
-    draw(document, oss, 0);
+    draw(document, out, 0);
+}
 
+struct TestFixture : ::testing::Test
+{
+    std::ostringstream oss;
+};
+
+TEST_F(TestFixture, runtime_polymorphism)
+{
+    test_helper(oss);
     ASSERT_EQ(R"(<document>
   0
   1

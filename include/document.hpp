@@ -11,6 +11,13 @@ void draw(const int& x, std::ostream& out, size_t position)
 class object_t {
 public: 
     object_t(const int& x) : self_(std::make_unique<int_model_t>(x)) { }
+    object_t(const object_t& x) : self_(std::make_unique<int_model_t>(*x.self_)) {}
+    object_t& operator=(const object_t& x)
+    {
+        object_t tmp(x); 
+        self_ = std::move(tmp.self_);
+        return *this;
+    }
     friend void draw(const object_t&x, std::ostream& out, size_t position)
     {
         x.self_->draw(out, position);

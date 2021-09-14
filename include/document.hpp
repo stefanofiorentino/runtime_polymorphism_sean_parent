@@ -10,21 +10,17 @@ void draw(const int& x, std::ostream& out, size_t position)
 
 class object_t {
 public: 
-    object_t(const int& x) : self_(std::make_unique<int_model_t>(x)) { 
-        std::cerr << "ctor" << std::endl;
-    }
-    object_t(const object_t& x) : self_(std::make_unique<int_model_t>(*x.self_)) {
-        std::cerr << "copy" << std::endl;
-    }
-    object_t& operator=(object_t x) noexcept
-    {
-        self_ = std::move(x.self_);
-        return *this;
-    }
+    object_t(const int& x) : self_(std::make_unique<int_model_t>(x)) {}
+
+    object_t(const object_t& x) : self_(std::make_unique<int_model_t>(*x.self_)) {}
+    object_t(object_t&&) noexcept = default;
+
+    object_t& operator=(const object_t& x) noexcept
+    { return *this = object_t(x); }
+    object_t& operator=(object_t&&) noexcept = default;
+    
     friend void draw(const object_t&x, std::ostream& out, size_t position)
-    {
-        x.self_->draw(out, position);
-    }
+    { x.self_->draw(out, position); }
 private: 
     struct int_model_t
     {

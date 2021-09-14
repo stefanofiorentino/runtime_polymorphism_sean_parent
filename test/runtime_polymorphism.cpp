@@ -16,7 +16,7 @@ void test_helper(std::ostream& out)
 
     document.emplace_back(0);
     document.emplace_back(std::string("Hello!"));
-    document.emplace_back(2);
+    document.emplace_back(document);
     document.emplace_back(my_class_t());
     document.emplace_back(4);
 
@@ -35,7 +35,10 @@ TEST_F(TestFixture, runtime_polymorphism)
     ASSERT_EQ(R"(<document>
   4
   my_class_t
-  2
+  <document>
+    0
+    Hello!
+  </document>
   Hello!
   0
 </document>

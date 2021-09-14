@@ -2,20 +2,15 @@
 
 #include <document.hpp>
 
-class my_class_t final : public object_t
-{
-public: 
-    void draw(std::ostream& out, size_t position) const override
-    {
-        out << std::string(position, ' ') << "my_class_t\n";
-    }
-};
-
 void test_helper(std::ostream& out)
 {    
     document_t document;
 
-    document.emplace_back(std::make_shared<my_class_t>());
+    document.emplace_back(0);
+    document.emplace_back(1);
+    document.emplace_back(2);
+    document.emplace_back(3);
+    document.emplace_back(4);
 
     draw(document, out, 0);
 }
@@ -29,7 +24,11 @@ TEST_F(TestFixture, runtime_polymorphism)
 {
     test_helper(oss);
     ASSERT_EQ(R"(<document>
-  my_class_t
+  0
+  1
+  2
+  3
+  4
 </document>
 )", oss.str());
 }
